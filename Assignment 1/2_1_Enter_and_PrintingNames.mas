@@ -1,0 +1,212 @@
+﻿
+
+loop,		JnS subInputString
+   			LoadI addr
+            STORE Element
+            /300 to 301
+            Load addr
+            Add ONE
+            Store addr
+            /zero detection
+            Load Element
+            Subt Zero
+			Skipcond 400
+            Jns dollardetect
+            Jns ZeroD
+            
+            /$ detection
+                
+       
+
+/Input Function
+subInputString, 	HEX 0
+    			Input
+                Store Element
+    			StoreI addr
+           		JumpI subInputString
+
+
+
+			
+ZeroD, 			HEX 0
+				Load addr
+				Subt ONE
+                Subt ONE
+                Store addr
+                Loadi addr
+                Subt Zero
+                Skipcond 400
+                Jns addradder
+                Jns addline     
+                
+addradder, 		HEX 0
+				Load addr
+ 				Add ONE
+                Add ONE
+                Store addr
+                Jump loop
+
+addline, 		HEX 0
+				Jns ifis300
+ 				
+                
+ifis300, 		HEX 0
+				Load addr
+                Subt ThirdOneZero
+				Skipcond 000
+                Jns ifis310
+                Jns yesitis300
+
+yesitis300,		HEX 0
+				Load originaddr
+                Add SixTeen
+                Store addr
+                Jump loop
+                
+ifis310,		HEX 0
+				Load addr
+                Subt ThirdTwoZero
+				Skipcond 000
+                Jns ifis320
+                Jns yesitis310
+
+yesitis310,		HEX 0
+				Load ThirdOneZero
+                Add SixTeen
+                Store addr
+                Jump loop
+                
+ifis320,		HEX 0
+				Load addr
+                Subt ThirdThirdZero
+				Skipcond 000
+                Jump loop
+                Jns yesitis320
+                
+yesitis320,		HEX 0
+				Load ThirdTwoZero
+                Add SixTeen
+                Store addr
+                Jump loop
+                
+dollardetect, 	HEX 0 
+				Load Element
+				Subt  dollar 
+            	Skipcond 400
+            	Jump loop     
+            	JnS PrintString
+                
+                
+/Print Function
+PrintString, 	HEX 0
+				Load originaddr
+   	 			Loadi originaddr
+    			Output
+                Subt dollar
+                Skipcond 400
+               	Jns prezeroD
+                Halt
+                               
+prezeroD,       HEX 0
+				Load originaddr
+   	 			Loadi originaddr
+				Subt Zero
+                Skipcond 400
+                Jns originaddriadder
+                Jns PrintZeroD
+                        
+originaddriadder, HEX 0 
+				Load originaddr
+                Add ONE
+                Store originaddr
+                Jns	PrintString
+                
+PrintZeroD, 	HEX 0
+				Load originaddr
+				Subt ONE
+                Store originaddr
+                Loadi originaddr
+                Subt Zero
+                Skipcond 400
+                Jns originaddriadd2
+                Jns Printaddline
+                                
+originaddriadd2, HEX 0 
+				Load originaddr
+                Add ONE
+                Add ONE
+                Store originaddr
+                Jns	PrintString
+
+Printaddline, 	HEX 0
+				Load newline
+				output
+                Load originaddr
+                Jns printaddline
+				
+           
+printaddline, 	HEX 0
+				Jns prtifis300
+           
+           
+           
+prtifis300, 		HEX 0
+				Load originaddr
+                Subt ThirdOneZero
+				Skipcond 000
+                Jns prtifis310
+                Jns prtyesitis300
+
+prtyesitis300,		HEX 0
+				Load ThirdOZeroZero
+                Add SixTeen
+                Store originaddr
+                Jns PrintString
+                
+prtifis310,		HEX 0
+				Load originaddr
+                Subt ThirdTwoZero
+				Skipcond 000
+                Jns prtifis320
+                Jns prtyesitis310
+
+prtyesitis310,		HEX 0
+				Load ThirdOneZero
+                Add SixTeen
+                Store originaddr
+                Jns PrintString
+                
+prtifis320,		HEX 0
+				Load originaddr
+                Subt ThirdThirdZero
+				Skipcond 000
+                Jump PrintString
+                Jns prtyesitis320
+                
+prtyesitis320,		HEX 0
+				Load ThirdTwoZero
+                Add SixTeen
+                Store originaddr
+                Jns PrintString           
+           
+           
+           
+           
+/resources and data
+FiveTeen, DEc 15
+SixTeen, DEC 16
+ThirdOZeroZero, HEX 300
+ThirdOneZero, HEX 310
+ThirdTwoZero, HEX 320
+ThirdThirdZero, HEX 330
+ThirdFourZero, HEX 340
+newline, HEX 00A
+originaddr, HEX 300
+addr,HEX 300
+ONE,  Dec 1
+Zero, HEX 0030
+Five, DEC 5
+End,  Halt         
+Element,  HEX  0   
+dollar,   HEX 024
+Name, HEX 0

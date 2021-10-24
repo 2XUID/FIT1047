@@ -1,0 +1,285 @@
+﻿
+
+loop,		JnS subInputString
+   			LoadI addr
+            STORE Element
+            /300 to 301
+            Load addr
+            Add ONE
+            Store addr
+            /zero detection
+            Load Element
+            Subt Zero
+			Skipcond 400
+            Jns dollardetect
+            Jns ZeroD
+            
+            /$ detection
+                
+       
+
+/Input Function
+subInputString, 	HEX 0
+    			Input
+                Store Element
+    			StoreI addr
+           		JumpI subInputString
+
+
+
+			
+ZeroD, 			HEX 0
+				Load addr
+				Subt ONE
+                Subt ONE
+                Store addr
+                Loadi addr
+                Subt Zero
+                Skipcond 400
+                Jns addradder
+                Jns addline     
+                
+addradder, 		HEX 0
+				Load addr
+ 				Add ONE
+                Add ONE
+                Store addr
+                Jump loop
+
+addline, 		HEX 0
+				Jns ifis300
+ 				
+                
+ifis300, 		HEX 0
+				Load addr
+                Subt ThirdOneZero
+				Skipcond 000
+                Jns ifis310
+                Jns yesitis300
+
+yesitis300,		HEX 0
+				Load originaddr
+                Add SixTeen
+                Store addr
+                Jump loop
+                
+ifis310,		HEX 0
+				Load addr
+                Subt ThirdTwoZero
+				Skipcond 000
+                Jns ifis320
+                Jns yesitis310
+
+yesitis310,		HEX 0
+				Load ThirdOneZero
+                Add SixTeen
+                Store addr
+                Jump loop
+                
+ifis320,		HEX 0
+				Load addr
+                Subt ThirdThirdZero
+				Skipcond 000
+                Jump loop
+                Jns yesitis320
+                
+yesitis320,		HEX 0
+				Load ThirdTwoZero
+                Add SixTeen
+                Store addr
+                Jump loop
+                
+dollardetect, 	HEX 0 
+				Load Element
+				Subt  dollar 
+            	Skipcond 400
+            	Jump loop     
+            	JnS Reservestarting
+/reserve
+Reservestarting, HEX 0
+			Load addr
+			Store pointer1
+            Jns reloadpointer1
+
+reloadpointer1, HEX 0
+			load pointer1
+			Subt ONE
+			Store pointer1
+			Loadi pointer1
+			Subt  Zero
+            Skipcond 400    
+            Jns reloadpointer1
+            JnS Reservepart
+
+/Reserve main           
+Reservepart, HEX 0
+			
+			loadi pointer1
+            Skipcond 400
+            Jns pointer1adder
+            Jns Resprezero
+            
+Printdetect, HEX 0
+			load pointer1
+            Subt TwoFF
+            Skipcond 400
+            Jns PrintString
+            JumpI Printdetect
+            
+
+pointer1adder, HEX 0
+				Load pointer2
+				Add ONE
+                Store pointer2
+				Loadi pointer1
+                Storei pointer2
+                Load pointer1
+				Subt ONE
+                Store pointer1
+                Loadi pointer1
+                Subt HEXzero
+				Skipcond 400
+				Jns Reservepart
+                Jns ifp2turn360
+                
+ifp2turn360,	HEX 0
+				Load pointer2
+				Subt ThirdSixZero
+				Skipcond 800
+                
+                Jns resp2turn360
+                Jns resifis370
+                
+
+resp2turn360,		HEX 0
+				Load ThirdFiveZero
+                Add SixTeen
+                Subt ONE
+				Store pointer2
+				Subt ThirdSevenZero
+				Skipcond 400
+                Jns reloadpointer1
+                Jns resifis370
+				
+                
+resifis370,		HEX 0
+				Load pointer2
+				Subt ThirdSevenZero
+				Skipcond  800
+                Jns resyesitis370
+                Jns Reservepart
+                
+                
+resyesitis370,	Hex 0
+				Load ThirdSixZero
+                Add SixTeen
+                Subt ONE
+				Store pointer2
+                Subt ThirdeightZero
+				Skipcond 400
+                Jns reloadpointer1
+                Jns Reservepart
+
+Resprezero, 	HEX 0
+				Jns Printdetect
+				Load pointer1
+                Subt ONE
+                Store pointer1
+   	 			Loadi pointer1
+                Skipcond 400
+                Jns Reservepart
+                Jns Resprezero
+                
+
+                
+/Print Function
+PrintString, 	HEX 0
+				
+   	 			Loadi printoriginaddr
+    			Output
+                Load printoriginaddr
+                Jns originaddriadder
+                Store printoriginaddr
+                Loadi printoriginaddr
+                Subt HEXzero
+				Skipcond 400
+               	Jns prezeroD
+                Jns PrintZeroD
+
+                               
+prezeroD,       HEX 0
+				Jns haltcheck
+				Load printoriginaddr
+   	 			Loadi printoriginaddr
+				Subt HEXzero
+                Skipcond 400
+                Jns PrintString
+                Jns PrintZeroD
+                
+haltcheck,		HEX 0
+				Load printoriginaddr
+                Subt ThirdeightZero
+                Skipcond 000
+                Halt
+                JumpI haltcheck
+                
+originaddriadder, HEX 0 
+				Load printoriginaddr
+               	Add ONE
+                Store printoriginaddr
+                JumpI 	originaddriadder
+                
+PrintZeroD, 	HEX 0
+				Load printoriginaddr
+				Add ONE
+                Store printoriginaddr
+                Loadi printoriginaddr
+                Subt Zero
+                Skipcond 400
+                Jns prezeroD
+                Jns Printaddline
+                     
+
+Printaddline, 	HEX 0
+				Load newline
+				output
+                Jns PrintString
+
+checkpoint,   	hex 0 
+				LOAD printoriginaddr
+                Subt ThirdeightZero
+                Skipcond 800
+                Jns PrintZeroD
+                Halt
+
+           
+           
+           
+           
+/resources and data
+TwoFF, HEX 02FF
+pointer1, HEX 000
+pointer2, HEX 34F
+FiveTeen, DEc 15
+SixTeen, DEC 16
+ThirdOZeroZero, HEX 300
+ThirdOneZero, HEX 310
+ThirdTwoZero, HEX 320
+ThirdThirdZero, HEX 330
+ThirdFourZero, HEX 340
+ThirdFiveZero,HEX 350
+ThirdSixZero,HEX 360
+ThirdSevenZero,HEX 370
+newline, HEX 00A
+originaddr, HEX 300
+printoriginaddr, HEX 350
+addr,HEX 300
+ONE,  Dec 1
+Zero, HEX 0030
+Five, DEC 5
+End,  Halt         
+Element,  HEX  0   
+dollar,   HEX 024
+Name, HEX 0
+HEXzero, HEX 000
+ThirdeightZero, HEX 380

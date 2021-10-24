@@ -1,0 +1,31 @@
+﻿Input 
+store A
+output
+Input 
+store B
+output
+Jns multiply
+load C
+output
+Halt 
+
+
+multiply, Dec 200
+CLEAR 
+STORE C
+Loop,	Load A
+    Skipcond 800
+    JumpI multiply
+    Load C
+    Add B
+    Store C
+    Load A
+    Subt One
+    Store A
+ 	Jump Loop
+
+    
+A, Dec 0
+B, Dec 0
+C, Dec 0
+One, Dec 1

@@ -1,0 +1,22 @@
+﻿input
+store x
+output
+input
+store y
+output
+load x
+subt y 
+skipcond 400
+jump iffalse
+load x
+add y
+store x
+
+
+iffalse, load y 
+	add x
+	store y 
+
+
+x, Dec 0
+y, Dec 0

@@ -1,0 +1,17 @@
+﻿Input 
+store x
+output
+Jns xDouble
+Jns xDouble
+load x
+output
+Halt 
+
+xDouble, Dec 100
+	Load x
+    add x
+    store x
+    JumpI xDouble
+
+    
+x, Dec 0
